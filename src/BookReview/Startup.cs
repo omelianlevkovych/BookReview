@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessLogic.Logic;
+using BusinessLogic.Logic.Interfaces;
+using Domain.Repository;
+using Domain.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +32,10 @@ namespace BookReview
         {
 
             services.AddControllers();
+
+            services.AddScoped<IBooksRepository, BooksRepository>();
+            services.AddScoped<IBooksLogic, BooksLogic>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookReview", Version = "v1" });

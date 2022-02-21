@@ -1,4 +1,6 @@
 ﻿using BookReview.Models;
+using BusinessLogic.Logic.Interfaces;
+using BusinessLogic.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,31 +14,36 @@ namespace BookReview.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly HashSet<BookDto> _books = new()
-        {
-            new BookDto { Id = 1, Name = "Call of Cthulhu" },
-            new BookDto { Id = 2, Name = "Raven" },
-        };
+        private readonly IBooksLogic booksLogic;
 
-        [HttpGet]
-        public ActionResult<IEnumerable<BookDto>> GetBooks()
+        public BooksController(
+            IBooksLogic booksLogic)
         {
-            return _books;
+            this.booksLogic = booksLogic;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<BookModel>>> GetBooks()
+        {
+            return Ok(await booksLogic.GetAll());
+        }
+
+        /*
         [HttpGet("{id}")]
         public ActionResult<BookDto> GetBook(int id)
         {
-            return _books.SingleOrDefault(x => x.Id == id);
+             // return _books.SingleOrDefault(x => x.Id == id);
         }
+        */
 
         [HttpPost]
         public IActionResult AddBook(BookDto book)
         {
-            _books.Add(book);
+           //  _books.Add(book);
             return Ok();
         }
 
+        /*
         [HttpDelete]
         public IActionResult DeleteBook(int id)
         {
@@ -45,8 +52,9 @@ namespace BookReview.Controllers
             {
                 return NotFound();
             }
-            _books.Remove(bookToRemove);
+           //  _books.Remove(bookToRemove);
             return Ok();
         }
+        */
     }
 }
