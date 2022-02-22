@@ -38,7 +38,7 @@ namespace BookReview
             var connectionString = Configuration
                    .GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<AppDbContext>(
+            services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(connectionString));
 
             services.AddScoped<IBooksRepository, BooksRepository>();

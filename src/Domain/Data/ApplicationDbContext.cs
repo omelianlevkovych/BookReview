@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Data
 {
-    public class AppDbContext : DbContext
-    {
-        public AppDbContext(DbContextOptions<AppDbContext> options)
+    public class ApplicationDbContext : DbContext
+    { 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
         public DbSet<BookEntity> Books { get;set; }
