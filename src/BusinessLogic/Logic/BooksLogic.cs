@@ -20,6 +20,21 @@ namespace BusinessLogic.Logic
             this.booksRepository = booksRepository;
         }
 
+        public Task Add(BookModel book)
+        {
+            return booksRepository.Add(book.ToEntity());
+        }
+
+        public Task Delete(int id)
+        {
+            return booksRepository.Remove(id);
+        }
+
+        public async Task<BookModel> Get(int id)
+        {
+            return (await booksRepository.GetById(id)).ToModel();
+        }
+
         public async Task<IEnumerable<BookModel>> GetAll()
         {
             // TODO: this should be improved

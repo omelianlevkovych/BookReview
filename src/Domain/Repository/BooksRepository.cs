@@ -1,47 +1,30 @@
-﻿using Domain.Entities;
+﻿using Domain.Data;
+using Domain.Entities;
 using Domain.Repository.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Repository
 {
-    public class BooksRepository : IBooksRepository
+    public class BooksRepository : EfRepositoryBase<BookEntity>, IBooksRepository
     {
-        public Task<BookEntity> Create(BookEntity book)
+        public BooksRepository(ApplicationDbContext context) : base(context)
         {
-            throw new NotImplementedException();
         }
 
-        public Task Delete(int id)
+        public IEnumerable<BookEntity> GetBooksByName(string name)
         {
-            throw new NotImplementedException();
+            return context.Books
+                .Where(x => string.Equals(x.Name, name, System.StringComparison.InvariantCultureIgnoreCase))
+            .ToList();
         }
 
-        public Task<IEnumerable<BookEntity>> GetAll()
+        public async Task Remove(int id)
         {
-            var result = new List<BookEntity>
-            {
-                new BookEntity
-                {
-                    Id = 1,
-                    Name = "Call of Cthulhu",
-                },
-            };
-
-            return Task.FromResult<IEnumerable<BookEntity>>(result);
-        }
-
-        public Task<BookEntity> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<BookEntity> Update(BookEntity book)
-        {
-            throw new NotImplementedException();
+            var book = await context.Books.FindAsync(id);
+            context.Books.Remove(book);
+            await context.SaveChangesAsync();
         }
     }
 }

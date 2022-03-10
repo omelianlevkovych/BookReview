@@ -30,5 +30,14 @@ namespace BusinessLogic.Extensions
             }
             return result;
         }
+
+        public static BookEntity ToEntity(this BookModel bookModel)
+        {
+            return new BookEntity
+            {
+                Id = bookModel.Id,
+                Name =bookModel.Name,
+            };
+        }
     }
 }
