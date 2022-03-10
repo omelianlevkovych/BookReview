@@ -14,7 +14,7 @@ namespace Domain.Repository.Interfaces
         Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate);
         Task Add(T entity);
         Task Update(T entity);
-        Task Delete(T entity);
+        Task Remove(T entity);
 
         Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> predicate);

@@ -23,38 +23,37 @@ namespace BookReview.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookModel>>> GetBooks()
+        public Task<IEnumerable<BookModel>> GetBooks()
         {
-            return Ok(await booksLogic.GetAll());
+            return booksLogic.GetAll();
         }
 
-        /*
+        
         [HttpGet("{id}")]
-        public ActionResult<BookDto> GetBook(int id)
+        public Task<BookModel> GetBook(int id)
         {
-             // return _books.SingleOrDefault(x => x.Id == id);
+             return booksLogic.Get(id);
         }
-        */
+        
 
         [HttpPost]
-        public IActionResult AddBook(BookDto book)
+        public async Task<ActionResult> AddBook(BookModel book)
         {
-           //  _books.Add(book);
+            await booksLogic.Add(book);
             return Ok();
         }
 
-        /*
         [HttpDelete]
-        public IActionResult DeleteBook(int id)
+        public async Task<ActionResult> DeleteBook(int id)
         {
-            var bookToRemove = _books.SingleOrDefault(x => x.Id == id);
+            var bookToRemove = await booksLogic.Get(id);
             if (bookToRemove is null)
             {
                 return NotFound();
             }
-           //  _books.Remove(bookToRemove);
+           
+            await booksLogic.Delete(bookToRemove.Id);
             return Ok();
         }
-        */
     }
 }

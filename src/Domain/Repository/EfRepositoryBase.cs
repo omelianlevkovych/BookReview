@@ -34,15 +34,13 @@ namespace Domain.Repository
             await context.SaveChangesAsync();
         }
 
-
-
         public Task Update(T entity)
         {
             context.Entry(entity).State = EntityState.Modified;
             return context.SaveChangesAsync();
         }
 
-        public Task Delete(T entity)
+        public Task Remove(T entity)
         {
             context.Set<T>().Remove(entity);
             return context.SaveChangesAsync();

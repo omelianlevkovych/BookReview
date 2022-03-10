@@ -3,6 +3,7 @@ using Domain.Entities;
 using Domain.Repository.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Domain.Repository
 {
@@ -17,6 +18,14 @@ namespace Domain.Repository
             return context.Books
                 .Where(x => string.Equals(x.Name, name, System.StringComparison.InvariantCultureIgnoreCase))
             .ToList();
+        }
+
+        public Task Remove(int id)
+        {
+            var book = new BookEntity() { Id = id };
+            context.Books.Attach(book);
+            context.Books.Remove(book);
+            return context.SaveChangesAsync();
         }
     }
 }

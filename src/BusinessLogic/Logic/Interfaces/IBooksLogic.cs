@@ -10,5 +10,8 @@ namespace BusinessLogic.Logic.Interfaces
     public interface IBooksLogic
     {
         Task<IEnumerable<BookModel>> GetAll();
+        Task<BookModel> Get(int id);
+        Task Add(BookModel book);
+        Task Delete(int id);
     }
 }
