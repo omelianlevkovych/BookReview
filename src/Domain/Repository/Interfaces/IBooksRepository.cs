@@ -4,12 +4,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Repository.Interfaces
 {
-    public interface IBooksRepository
+    public interface IBooksRepository : IRepositoryBase<BookEntity>
     {
-        Task<BookEntity> GetById(int id);
-        Task<IEnumerable<BookEntity>> GetAll();
-        Task<BookEntity> Create(BookEntity book);
-        Task Delete(int id);
-        Task<BookEntity> Update(BookEntity book);
     }
 }
