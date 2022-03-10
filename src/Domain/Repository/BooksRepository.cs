@@ -20,12 +20,11 @@ namespace Domain.Repository
             .ToList();
         }
 
-        public Task Remove(int id)
+        public async Task Remove(int id)
         {
-            var book = new BookEntity() { Id = id };
-            context.Books.Attach(book);
+            var book = await context.Books.FindAsync(id);
             context.Books.Remove(book);
-            return context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
     }
 }
