@@ -30,7 +30,7 @@ namespace Domain.Repository
                 throw new Exception("Unable to find the book.");
             }
 
-            book.IsDeleted = true;
+            book.SoftDeleted = true;
             await context.SaveChangesAsync();
         }
     }
