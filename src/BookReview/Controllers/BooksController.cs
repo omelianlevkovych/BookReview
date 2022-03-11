@@ -1,11 +1,7 @@
-﻿using BookReview.Models;
-using BusinessLogic.Logic.Interfaces;
+﻿using BusinessLogic.Logic.Interfaces;
 using BusinessLogic.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookReview.Controllers
@@ -54,6 +50,12 @@ namespace BookReview.Controllers
            
             await booksLogic.Delete(bookToRemove.Id);
             return Ok();
+        }
+
+        [HttpGet("trashed")]
+        public Task<IEnumerable<BookModel>> GetSoftDeleted()
+        {
+            return booksLogic.GetSoftDeleted();
         }
     }
 }

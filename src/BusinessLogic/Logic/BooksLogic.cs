@@ -4,8 +4,6 @@ using BusinessLogic.Models;
 using Domain.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Logic
@@ -44,6 +42,12 @@ namespace BusinessLogic.Logic
         public async Task<IEnumerable<BookModel>> GetAll()
         {
             var books = await booksRepository.GetAll();
+            return books.ToModel();
+        }
+
+        public async Task<IEnumerable<BookModel>> GetSoftDeleted()
+        {
+            var books = await booksRepository.GetSoftDeleted();
             return books.ToModel();
         }
     }
