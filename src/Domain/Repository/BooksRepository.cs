@@ -1,6 +1,8 @@
 ﻿using Domain.Data;
 using Domain.Entities;
 using Domain.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,18 +15,32 @@ namespace Domain.Repository
         {
         }
 
-        public IEnumerable<BookEntity> GetBooksByName(string name)
+        public async Task<IEnumerable<BookEntity>> GetBooksByName(string name)
         {
-            return context.Books
+            return await context.Books
                 .Where(x => string.Equals(x.Name, name, System.StringComparison.InvariantCultureIgnoreCase))
-            .ToList();
+            .ToListAsync();
         }
 
-        public async Task Remove(int id)
+        public async Task Delete(int id)
         {
             var book = await context.Books.FindAsync(id);
-            context.Books.Remove(book);
+            
+            if (book is null)
+            {
+                throw new Exception("Unable to find the book.");
+            }
+
+            book.SoftDeleted = true;
             await context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<BookEntity>> GetSoftDeleted()
+        {
+            return await context.Books.IgnoreQueryFilters()
+                    .Where(x => x.SoftDeleted)
+                    .ToListAsync();
+        }
+
     }
 }

@@ -4,8 +4,6 @@ using BusinessLogic.Models;
 using Domain.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Logic
@@ -27,18 +25,30 @@ namespace BusinessLogic.Logic
 
         public Task Delete(int id)
         {
-            return booksRepository.Remove(id);
+            return booksRepository.Delete(id);
         }
 
         public async Task<BookModel> Get(int id)
         {
-            return (await booksRepository.GetById(id)).ToModel();
+            var book = await booksRepository.GetById(id);
+            if (book is null)
+            {
+                throw new Exception("Unable to get the book");
+            }
+
+            return book.ToModel();
         }
 
         public async Task<IEnumerable<BookModel>> GetAll()
         {
-            // TODO: this should be improved
-            return (await booksRepository.GetAll()).ToModel();
+            var books = await booksRepository.GetAll();
+            return books.ToModel();
+        }
+
+        public async Task<IEnumerable<BookModel>> GetSoftDeleted()
+        {
+            var books = await booksRepository.GetSoftDeleted();
+            return books.ToModel();
         }
     }
 }
