@@ -1,6 +1,7 @@
 ﻿using Domain.Data;
 using Domain.Entities;
 using Domain.Repository.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,10 +21,16 @@ namespace Domain.Repository
             .ToList();
         }
 
-        public async Task Remove(int id)
+        public async Task Delete(int id)
         {
             var book = await context.Books.FindAsync(id);
-            context.Books.Remove(book);
+            
+            if (book is null)
+            {
+                throw new Exception("Unable to find the book.");
+            }
+
+            book.IsDeleted = true;
             await context.SaveChangesAsync();
         }
     }

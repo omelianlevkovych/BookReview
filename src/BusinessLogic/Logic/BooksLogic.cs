@@ -27,7 +27,7 @@ namespace BusinessLogic.Logic
 
         public Task Delete(int id)
         {
-            return booksRepository.Remove(id);
+            return booksRepository.Delete(id);
         }
 
         public async Task<BookModel> Get(int id)
