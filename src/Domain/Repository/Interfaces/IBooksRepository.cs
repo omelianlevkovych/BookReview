@@ -6,8 +6,10 @@ namespace Domain.Repository.Interfaces
 {
     public interface IBooksRepository : IRepositoryBase<BookEntity>
     {
-        public Task Delete(int id);
+        Task Delete(int id);
 
-        public IEnumerable<BookEntity> GetBooksByName(string name);
+        Task<IEnumerable<BookEntity>> GetBooksByName(string name);
+
+        Task<IEnumerable<BookEntity>> GetSoftDeleted();
     }
 }

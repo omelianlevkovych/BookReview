@@ -1,6 +1,7 @@
 ﻿using Domain.Data;
 using Domain.Entities;
 using Domain.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,11 @@ namespace Domain.Repository
         {
         }
 
-        public IEnumerable<BookEntity> GetBooksByName(string name)
+        public async Task<IEnumerable<BookEntity>> GetBooksByName(string name)
         {
-            return context.Books
+            return await context.Books
                 .Where(x => string.Equals(x.Name, name, System.StringComparison.InvariantCultureIgnoreCase))
-            .ToList();
+            .ToListAsync();
         }
 
         public async Task Delete(int id)
@@ -33,5 +34,13 @@ namespace Domain.Repository
             book.SoftDeleted = true;
             await context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<BookEntity>> GetSoftDeleted()
+        {
+            return await context.Books.IgnoreQueryFilters()
+                    .Where(x => x.SoftDeleted)
+                    .ToListAsync();
+        }
+
     }
 }
