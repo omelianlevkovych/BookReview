@@ -7,6 +7,8 @@
     <img src="assets/book-review-logo.png" alt="Logo" width="250" height="200">
   </a>
  
+ 
+**Richard Feynman: What I cannot create, I do not understand.**
 # build & run
 ```sh
 dotnet restore
