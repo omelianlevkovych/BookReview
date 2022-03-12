@@ -10,7 +10,7 @@
  
 **Richard Feynman: What I cannot create, I do not understand.**
 # build & run
-```sh
+```powershell
 dotnet restore
 dotnet build
 cd src/BookReview
@@ -27,3 +27,14 @@ In case I will see that I am getting too messy with tests, I am going to refacto
 In this solution I'll stick to next namming pattern:  
 https://enterprisecraftsmanship.com/posts/you-naming-tests-wrong/  
 Lets see how it will work out.
+
+
+
+# docker
+## docker-compose
+### issues with ELK stack (elastic & kibana)
+you can have limited resourses, execute the following commands in PS:
+```powershell
+wsl -d docker-desktop
+sysctl -w vm.max_map_count=262144
+```
