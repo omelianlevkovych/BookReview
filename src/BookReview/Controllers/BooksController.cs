@@ -26,9 +26,14 @@ namespace BookReview.Controllers
 
         
         [HttpGet("{id}")]
-        public Task<BookModel> GetBook(int id)
+        public async Task<ActionResult<BookModel>> GetBook(int id)
         {
-             return booksLogic.Get(id);
+            var book = await booksLogic.Get(id);
+            if (book is null)
+            {
+                return NotFound();
+            }
+             return book;
         }
         
 

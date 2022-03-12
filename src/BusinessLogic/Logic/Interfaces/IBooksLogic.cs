@@ -13,7 +13,6 @@ namespace BusinessLogic.Logic.Interfaces
         Task<BookModel> Get(int id);
         Task Add(BookModel book);
         Task Delete(int id);
-
         Task<IEnumerable<BookModel>> GetSoftDeleted();
     }
 }
