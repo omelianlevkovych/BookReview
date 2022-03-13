@@ -29,6 +29,16 @@ https://enterprisecraftsmanship.com/posts/you-naming-tests-wrong/
 Lets see how it will work out.
 
 
+# logs
+ELK + Serilog stack.  
+Execute:
+```powershell
+docker-compose up -d
+```
+in the terminal.
+* Elasticsearch is available at http://localhost:9200
+* KibanaUI is up at http://localhost:5601
+
 
 # docker
 ## docker-compose

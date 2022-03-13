@@ -3,6 +3,7 @@ using BusinessLogic.Logic.Interfaces;
 using BusinessLogic.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,16 @@ namespace BookReview.Tests.ControllerTests
     public class BooksControllerTests
     {
         private readonly Mock<IBooksLogic> booksLogicMock;
+        private readonly Mock<ILogger> loggerMock;
         private readonly BooksController controller;
 
         public BooksControllerTests()
         {
             booksLogicMock = new Mock<IBooksLogic>();
-            controller = new BooksController(booksLogicMock.Object);
+            loggerMock = new Mock<ILogger>();
+            controller = new BooksController(
+                booksLogicMock.Object,
+                loggerMock.Object);
         }
 
         [Fact]
