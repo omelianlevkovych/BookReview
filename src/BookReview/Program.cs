@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
 
 namespace BookReview
@@ -19,6 +20,7 @@ namespace BookReview
                 {
                      configuration.Enrich.FromLogContext()
                         .Enrich.WithMachineName()
+                        .Enrich.WithExceptionDetails()
                         .WriteTo.Debug()
                         .WriteTo.Console()
                         .WriteTo.Elasticsearch(ConfigureElasticSink(context))
