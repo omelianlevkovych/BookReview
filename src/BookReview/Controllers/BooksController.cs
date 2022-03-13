@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Logic.Interfaces;
 using BusinessLogic.Models;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,16 +12,20 @@ namespace BookReview.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBooksLogic booksLogic;
+        private readonly ILogger logger;
 
         public BooksController(
-            IBooksLogic booksLogic)
+            IBooksLogic booksLogic,
+            ILogger logger)
         {
             this.booksLogic = booksLogic;
+            this.logger = logger;
         }
 
         [HttpGet]
         public Task<IEnumerable<BookModel>> GetBooks()
         {
+            logger.Information("test-log-message!");
             return booksLogic.GetAll();
         }
 
