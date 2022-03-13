@@ -38,7 +38,17 @@ namespace BookReview.ErrorHandling
             }
         }
 
-        private int GetStatusCode(Exception exception)
+        private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = GetStatusCode(exception);
+;
+            await context.Response
+                .WriteAsync(new ErrorDetails(context.Response.StatusCode)
+                    .ToString());
+        }
+
+        private static int GetStatusCode(Exception exception)
         {
             int code = (int)HttpStatusCode.InternalServerError;
             if (exception is NotFoundException)
@@ -46,24 +56,6 @@ namespace BookReview.ErrorHandling
                 code = (int)HttpStatusCode.NotFound;
             }
             return code;
-        }
-
-        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
-        {
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = GetStatusCode(exception);
-            
-            var message = exception switch
-                {
-                    CustomException => "Application Exception",
-                    _ => "Internal Server Error"
-                };
-
-            await context.Response.WriteAsync(new ErrorDetails()
-            {
-                StatusCode = context.Response.StatusCode,
-                Message = message,
-            }.ToString());
         }
     }
 }
