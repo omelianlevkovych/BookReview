@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookReview.ErrorHandling;
 using BusinessLogic.Logic;
 using BusinessLogic.Logic.Interfaces;
 using Domain.Data;
@@ -59,6 +60,8 @@ namespace BookReview
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookReview v1"));
             }
+
+            app.UseExceptionMiddleware();
 
             app.UseHttpsRedirection();
 

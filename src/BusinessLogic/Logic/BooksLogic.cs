@@ -2,7 +2,7 @@
 using BusinessLogic.Logic.Interfaces;
 using BusinessLogic.Models;
 using Domain.Repository.Interfaces;
-using System;
+using Infrastructure.Exceptions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -33,7 +33,7 @@ namespace BusinessLogic.Logic
             var book = await booksRepository.GetById(id);
             if (book is null)
             {
-                throw new Exception("Unable to get the book");
+                throw new NotFoundException("Unable to get the book");
             }
 
             return book.ToModel();
