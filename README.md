@@ -30,7 +30,7 @@ Lets see how it will work out.
 
 
 # logs
-EKS + Serilog stack.  
+ELK + Serilog stack.  
 Execute:
 ```powershell
 docker-compose up -d
