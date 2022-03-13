@@ -1,11 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 
@@ -24,16 +19,9 @@ namespace BookReview
                 {
                      configuration.Enrich.FromLogContext()
                         .Enrich.WithMachineName()
+                        .WriteTo.Debug()
                         .WriteTo.Console()
-                        .WriteTo.Elasticsearch(
-                            new ElasticsearchSinkOptions(
-                                new Uri(context.Configuration["ElasticConfiguration:Uri"]))
-                                {
-                                    IndexFormat = $"{context.Configuration["ApplicationName"]}-logs-{context.HostingEnvironment.EnvironmentName?.ToLower().Replace(".","-")}-{DateTime.UtcNow:yyyy-MM}",
-                                    AutoRegisterTemplate = true,
-                                    NumberOfReplicas = 1,
-                                    NumberOfShards = 2,
-                                })
+                        .WriteTo.Elasticsearch(ConfigureElasticSink(context))
                         .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
                         .ReadFrom.Configuration(context.Configuration);
                 })
@@ -41,5 +29,25 @@ namespace BookReview
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        private static ElasticsearchSinkOptions ConfigureElasticSink(HostBuilderContext context)
+        {
+            return new ElasticsearchSinkOptions(new Uri(context.Configuration["ElasticConfiguration:Uri"]))
+            {
+                IndexFormat = GetELKIndexFormat(context),
+                AutoRegisterTemplate = true,
+                NumberOfReplicas = 1,
+                NumberOfShards = 2,
+            };
+        }
+
+        private static string GetELKIndexFormat(HostBuilderContext context)
+        {
+                // Application name can be changed to assebly name by using recursion.
+                // Assembly.GetExecutingAssembly().GetName().Name
+                // The approach with the application name from config file is easier to modify.
+            return 
+                $"{context.Configuration["ApplicationName"]}-logs-{context.HostingEnvironment.EnvironmentName?.ToLower().Replace(".","-")}-{DateTime.UtcNow:yyyy-MM}";
+        }
     }
 }
